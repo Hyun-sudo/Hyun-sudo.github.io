@@ -92,4 +92,5 @@ echo "tracing_on"
 ```
 
 86p의 기존 코드와 다른 점은 기존 코드의 중복되는 명령은 삭제했고<br>
-bcm2835_mmc_irq()와 rpi_get_interrupt_info()를 따로 따로 필터에 저장해 어디서 문제가 생겼는지 확인할 수 있게 했다.
+bcm2835_mmc_irq()와 rpi_get_interrupt_info()를 따로 따로 필터에 저장해<br>
+어디서 문제가 생겼는지 확인할 수 있게 했다.

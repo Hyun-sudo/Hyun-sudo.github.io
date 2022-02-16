@@ -12,7 +12,7 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "kr-KR"
@@ -104,7 +104,7 @@ author:
   name             : "Hyunjong Ko"
   avatar           : "/assets/portfolio.png" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Student"
-  location         : "Somewhere"
+  location         : "Republic of Korea"
   email            : "arkay0204@gmail.com"
   links:
     - label: "Email"
