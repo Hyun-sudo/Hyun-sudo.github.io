@@ -27,8 +27,9 @@ PrtSc 키를 누르거나<br>
 ```bash
 scrot /home/pi/Pictures/screenshot.png
 ```
-만약 키보드 숏컷의 커맨드를 이 명령어로 바꾼다면 항상 내가 지정한 디렉토리에 저장될 것이다.<br>
-필자는 '/home/pi/Prictures/Screenshots'에 지정할 것이므로 미리 이 디렉토리를 만들어두었다.<br>
+만약 키보드 숏컷의 커맨드를 이 명령어로 바꾼다면<br>
+항상 내가 지정한 디렉토리에 저장될 것이다.<br>
+필자는 '/home/pi/Prictures/Screenshots'에 지정할 것이므로 미리 디렉토리를 만들어두었다.<br>
 키보드 숏컷은 Openbox의 lxde-pi-rc.xml에서 지정할 수 있는데 에디터를 통해 수정해보자.
 ```bash
 vim /etc/xdg/openbox/lxde-pi-rc.xml
