@@ -92,7 +92,7 @@ sys_exit_group() 함수의 코드가 보이는데, do_group_exit() 함수를 호
 26038번 메세지를 분석해보자.
 
 ```bash
-rpi_proc_exit-13081 [002] d... 439862.582574: signal_generate: sig=7 errno=0 code=1 comm=bash pid=13081 grp=1 res=0
+rpi_proc_exit-13081 [002] d... 439862.582574: signal_generate: sig=17 errno=0 code=1 comm=bash pid=13081 grp=1 res=0
 ```
 
 rpi_proc_exit 프로세스는 종료 과정에서 pid가 13081인 부모 bash 프로세스에게 SIGCHLD 시그널을 보낸다.<br>
