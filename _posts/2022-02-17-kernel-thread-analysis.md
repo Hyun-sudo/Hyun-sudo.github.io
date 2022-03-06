@@ -269,14 +269,81 @@ int kthreadd(void *unused)
 {
     struct task_struct *tsk = current;
     /* Setup a clean context for our children to inherit.  */
+    set_task_comm(tsk, "kthreadd");
+    ignore_signals(tsk);
+    set_cpus_allowed_ptr(tsk, spu_all_mask);
+    set_mems_allowed(node_states[N-MEMORY]
+    current->flags |- PF_NOFREEZE;
+    cgroup_init_kthreadd();
+
+   for (;;) {
+   set_current_state(TASK_INTERRUPTIBLE);
+   if (list_empty(&kthread_create_list))
+        schedule();
+	__set_current_state(TASK_RUNNING);
+
+	spin_lock(&ktread_create_lock);
+	while (!list_empty(&kthread_create_list)) {
+		struct kthread_create_info *create;
+
+
+		create = list_entry(ktrhread_create.next,
+				struct kthread_create_info, list);
+		list_del_init(&create->list);
+		spin_unlock(&kthread_create_lock);
+
+
+		create_kthread(create);
+
+		spin_lock(&kthread_create_lock);
+	}
+	spin_unlock(&kthread_create_lock);
 }
 ```
 
+khtreadd() 함수의 핵심 기능은 다음과 같다.
+- kthread_create_info 연결 리스트를 확인해 프로세스 생성 요청을 확인
+- create_kthread() 함수를 호출해 프로세스를 생성
 
+kthreadd 프로세스를 깨우면 kthreadd() 함수가 실행된다고 했는데,<br>
+실제 kthreadd() 함수의 어느 코드가 실행되는 것 일까?
 
+kthreadd 프로세스는 kthreadd() 함수 내에서 프로세스 생성 요청이 있었는지<br>
+kthread_create_list 연결 리스트를 지속적으로 점검한다.<br>
+만약 kthreadd 프로세스가 요청한 프로세스 생성을 처리한 다음<br>
+더는 생성할 프로세스가 없을 때는 어느 코드를 실행하는 걸까?
+```c
+	if (list_empty(&kthread_create_list)
+		schedule();
+	__set_current_state(TASK_RUNNING);
+```
+schedule() 함수를 호출해 스스로 휴면 상태로 진입하는 동작이다.<br>
+즉, 커널 스레드 생성 요청이 없으면 kthread_create_list 연결 리스트가 비게 되어 휴면하는 것이다.
 
+이후 커널 스레드 생성 요청을 받아 kthreadd 프로세스를 누군가 깨우면 바로 그 아래 코드를 실행한다.<br>
+그 이유는 schedule() 함수로 휴면 상태로 진입한 후 다음에 실행되는 코드이기 때문이다.
 
+while문의 조건인 21번째 줄을 보자.<br>
+kthread_create_list라는 연결 리스트가 비어있지 않으면 21~32번째 줄을 실행해 커널 스레드를 생성한다.<br>
+```c
+	create = list_entry(kthread_create_list.next, struct kthread_create_info, list);
+```
+kthread_create_info.next 필드를 통해 kthread_create_info 구조체의 주소를 읽는다.
 
+연결 리스트 타입인 kthread_create_list 전역변수와<br>
+스레드 생성 정보를 나타내는 kthread_create_info 구조체의 관계는 다음과 같다.
+```c
+struct kthread_create_info
+{
+	int (*threadfn)(void *data);
+	void *data;
+	int node;
 
-
+	struct task_struct *result;
+	struct completion *done;
+	
+	struct list_head list;
+}
+```
+kthread_create_list 구조체의 마지막 필드는 list이며 struct list_head 타입이다.<br>
 
