@@ -346,4 +346,37 @@ struct kthread_create_info
 }
 ```
 kthread_create_list 구조체의 마지막 필드는 list이며 struct list_head 타입이다.<br>
+그런데 kthread_create_list 전역변수의 next 필드가 kthread_create_info 구조체의 list 필드 주소를 가리킨다.<br>
 
+kthread_create_info 구조체에서 list 필드의 오프셋을 계산해<br>
+kthread_crete_info 구조체의 시작 주소를 알 수 있다.
+```c
+		 create_kthread(create);
+```
+create_kthread() 함수를 호출해 커널 스레드를 생성한다.
+#### create_kthread() 함수 분석
+```c
+static void create_kthread(struct kthread_create_info *create)
+{
+	int pid;
+
+#ifdef CONFIG_NUMA
+	current->pref_node_fork = create->node;
+#endif
+	/* We want our own signal handler (we take no singals by default). */
+	pid = kernel_thread(kthread, create, CLONE_FS | CLONE_FILES | SIGCHLD);
+}
+```
+kernel_thread() 함수를 호출하는데 CLONE_FS, CLONE_FILES, SIGCHLD 매크로를<br>
+OR 연산한 결과를 3번째 인자로 설정한다.
+
+#### kernel_thread() 함수 분석
+```c
+pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
+{
+	return _do_fork(flags|CLONE_VM|CLONE_UNTRACED, (unsigned long)fn,
+				(unsinged long)arg, NULL, NULL, O);
+}
+```
+\_do_fork() 함수를 호출해 프로세스를 생성한다.<br>
+코드 분석을 통해 커널 스레드도 프로세스의 한 종류인 것을 알 수 있었다.
