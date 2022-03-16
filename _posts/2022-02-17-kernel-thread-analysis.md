@@ -130,7 +130,7 @@ struct task_struct *kthread_create_on_node(int (*threadfn)(void *data),
 
 커널 스레드를 생성하는 예제 코드를 통해 좀 더 자세하게 알아보자.
 
-> https://github.io/raspberrypi/linux/blob/rpi-4.19/drivers/vhost/vhost.c
+> <https://github.io/raspberrypi/linux/blob/rpi-4.19/drivers/vhost/vhost.c>
 
 ```c
 long vhost_dev_set_owner(struct vhost_dev *dev)
@@ -153,7 +153,7 @@ vhost_dev 구조체의 주소를 두번째 인자로 전달하는 것이다.<br>
 
 ##### 스레드 핸들러 함수로 전달되는 매개변수
 
-> https://github.io/raspberrypi/linux/blob/rpi-4.19.y/drivers/vhost/vhost.c
+> <https://github.io/raspberrypi/linux/blob/rpi-4.19.y/drivers/vhost/vhost.c>
 
 ```c
 static int vhost_worker(void *data)
@@ -173,7 +173,7 @@ vhost_dev_set_owner() 함수에서 kthread_create() 함수를 호출할 때<br>
 
 #### kthread_create() 함수 구현부
 
-> https://github.io/raspberrypi/linux/blob/rpi-4.19.y/include/linux/kthread.h
+> <https://github.io/raspberrypi/linux/blob/rpi-4.19.y/include/linux/kthread.h>
 
 ```c
 #define kthread_create(threadfn, data, namefmt, arg...) \
@@ -188,7 +188,7 @@ kthread_create_on_node() 함수로 바꾼다.<br>
 #### kthread_create_on_node() 함수 분석
 kthread_create() 매크로 함수의 실체인 kthread_create_on_node() 함수의 구현부를 보자.
 
-> https://github.com/raspberrypi/linux/blob/rpi-4.19.y/kernel/kthread.c
+> <https://github.com/raspberrypi/linux/blob/rpi-4.19.y/kernel/kthread.c>
 
 ```c
 struct task_struct *kthread_create_on_node(int (*threadfn)(void *data),
@@ -209,7 +209,7 @@ struct task_struct *kthread_create_on_node(int (*threadfn)(void *data),
 다만 가변 인자를 통해 \__kthread_create_on_node() 함수를 호출할 뿐이다.<br>
 결국 \__kthread_create_on_node() 함수에서 커널 스레드 생성을 요청한다.
 
-> https://github.com/raspberrypi/linux/blob/rpi-4.19.y/kernel/kthread.c
+> <https://github.com/raspberrypi/linux/blob/rpi-4.19.y/kernel/kthread.c>
 
 ```c
 struct task_struct *__kthread_create_on_node(int (*threadfn)void( *data

@@ -22,7 +22,7 @@ copy_process() 함수는 부모 프로세스의 리소스를 자식 프로세스
 copy_process() 함수를 호출해 프로세스를 만든 후 wake_up_new_task() 함수를 호출해<br>
 스케줄러에게 프로세스 실행 요청을 한다.
 
-> https://github.com/raspberry/linux/blob/rpi-4.19.y/kernel/fork.c
+> <https://github.com/raspberry/linux/blob/rpi-4.19.y/kernel/fork.c>
 
 ```c
 long _do_fork(unsigned long clone_flags,
@@ -140,7 +140,7 @@ p라는 포인터형 변수의 오류를 검사한다.<br>
 프로세스를 생성하는 핵심 동작은 copy_process() 함수에서 수행한다.<br>
 대부분 부모 프로세스에 있는 리소스를 복사하는 동작이다.
 
-> https://github.com/raspberry/linux/blob/rpi-4.19.y/kernel/fork.c
+> <https://github.com/raspberry/linux/blob/rpi-4.19.y/kernel/fork.c>
 
 ```c
 static __latent_entropy struct task_struct *copy_process(
@@ -229,7 +229,7 @@ copy_process() 함수를 실행해 부모 프로세스의 리소스를<br>
 - 현재 실행 중인 CPU 번호를 thread_info 구조체의 cpu 필드에 저장
 - 런큐에 프로세스를 큐잉
 
-> https://github.com/raspberrypi/linux/blob/rpi-4.19.y/kernel/sched/core.c
+> <https://github.com/raspberrypi/linux/blob/rpi-4.19.y/kernel/sched/core.c>
 
 ```c
 void wake_up_new_task(struct task_struct *p)
