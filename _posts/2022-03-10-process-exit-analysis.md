@@ -409,7 +409,7 @@ TaskSchedulerSe-1803 프로세스에서 pid가 10인 rcu_sched 프로세스로 �
 rcu_sched 프로세스는 finish_task_switch() 함수에서
 TaskSchedulerSe-1803 프로세스의 마지막 리소스를 정리한다.
 
-TaskSchedulerSe-1803 프로세스는 do_exit() 함수에서 태스크 디스크립터의 여러 필드를 해제했다.</br>
+TaskSchedulerSe-1803 프로세스는 do_exit() 함수에서 태스크 디스크립터의 여러 필드를 해제했다.<br>
 그런데 do_exit() 함수를 TaskSchedulerSe-1803 프로세스의 스택 공간에서 실행 중이니
 스스로 자신의 스택 공간을 해제할 수 없다.
 
